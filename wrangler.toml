@@ -1,0 +1,23 @@
+name = "bloomers-app"
+main = "worker.ts"
+compatibility_date = "2022-11-17"
+compatibility_flags = ["streams_enable_constructors"]
+
+[site]
+bucket = "./public"
+
+[[d1_databases]]
+binding = "APP_DB"
+database_name = "bloomers"
+database_id = "7b31a2a3-946c-40ff-ba74-0f3630b548eb"
+
+[env.development.define]
+"process.env.REMIX_DEV_SERVER_WS_PORT" = "8002"
+
+[env.development.vars]
+SESSION_SECRET = "this-should-be-a-secret"
+
+[[env.development.d1_databases]]
+binding = "APP_DB"
+database_name = "devbloomers"
+database_id = "07f479dc-8344-4eac-8ece-182728ed1075"
