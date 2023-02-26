@@ -13,7 +13,17 @@ export interface ItemsService {
 }
 
 export interface User {
-	id: string;
+	user_id: string;
+	email: string;
+	first_name: string;
+	last_name: string;
+	farm_id: string;
+	photo: string;
+}
+
+export interface Farm {
+	farm_id: string;
+	farm_name: string;
 }
 
 export interface AuthService {
@@ -22,4 +32,9 @@ export interface AuthService {
 	requireUser(request: Request): Promise<User>;
 	// setUser(request: Request, user: User): Promise<string>;
 	destroySession(request: Request): Promise<string>;
+}
+
+export interface UserService {
+	getUser(email: string): Promise<User | undefined>;
+	createUser(user: User): Promise<User>;
 }

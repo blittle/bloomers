@@ -13,7 +13,7 @@ export async function action({
 	const url = new URL(request.url);
 	const redirectTo = utils.getRedirectTo(url.searchParams, "/");
 
-	await auth.authenticator.authenticate("mock", request, {
+	await auth.authenticator.authenticate("google", request, {
 		successRedirect: redirectTo,
 	});
 

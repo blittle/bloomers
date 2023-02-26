@@ -2,21 +2,18 @@ const { PrismaClient } = require("@prisma/client");
 
 async function seed() {
 	const client = new PrismaClient();
-	const itemsCount = await client.item.count();
-	if (!itemsCount) {
-		await client.item.create({
+	const farmsCount = await client.farm.count();
+	if (!farmsCount) {
+		await client.farm.create({
 			data: {
-				label: "Item 1",
+				farm_id: "9aa8a16d",
+				farm_name: "Fox Farm Flowers",
 			},
 		});
-		await client.item.create({
+		await client.farm.create({
 			data: {
-				label: "Item 2",
-			},
-		});
-		await client.item.create({
-			data: {
-				label: "Item 3",
+				farm_id: "eaa8f808",
+				farm_name: "Test Farm",
 			},
 		});
 	}

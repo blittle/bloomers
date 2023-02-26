@@ -16,6 +16,8 @@ database_id = "7b31a2a3-946c-40ff-ba74-0f3630b548eb"
 
 [env.development.vars]
 SESSION_SECRET = "this-should-be-a-secret"
+GOOGLE_CLIENT_ID = "283291095563-hqqfqjbim345k6115f70g1vcoj7a28ml.apps.googleusercontent.com"
+GOOGLE_CLIENT_SECRET = "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"
 
 [[env.development.d1_databases]]
 binding = "APP_DB"

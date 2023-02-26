@@ -4,15 +4,25 @@ import {
 	type SessionStorage,
 } from "@remix-run/cloudflare";
 import { Authenticator } from "remix-auth";
-import { FormStrategy } from "remix-auth-form";
+import { GoogleStrategy } from "remix-auth-google";
 
-import { type AuthService, type User } from "~/services";
+import { UserService, type AuthService, type User } from "~/services";
 
 export class RemixAuthService implements AuthService {
 	public authenticator: Authenticator<User>;
 	private sessionStorage: SessionStorage;
 
-	constructor(secrets: string[]) {
+	constructor(
+		secrets: string[],
+		private db: D1Database,
+		googleClientId?: string,
+		googleClientSecret?: string,
+		users: UserService
+	) {
+		if (!googleClientId) throw new Error("Google Client ID Required for Auth");
+		if (!googleClientSecret)
+			throw new Error("Google Client Secret Required for Auth");
+
 		this.sessionStorage = createCookieSessionStorage({
 			cookie: {
 				name: "auth",
@@ -25,10 +35,31 @@ export class RemixAuthService implements AuthService {
 
 		this.authenticator = new Authenticator<User>(this.sessionStorage);
 		this.authenticator.use(
-			new FormStrategy<User>(async ({ form, context }) => {
-				return { id: "1" };
-			}),
-			"mock"
+			new GoogleStrategy(
+				{
+					clientID: googleClientId,
+					clientSecret: googleClientSecret,
+					callbackURL: "http://localhost:8787/auth",
+				},
+				async ({ accessToken, refreshToken, extraParams, profile }) => {
+					let user = await users.getUser(profile.emails[0].value);
+
+					if (!user) {
+						const newUserId = crypto.randomUUID();
+						user = await users.createUser({
+							user_id: newUserId,
+							email: profile.emails[0].value,
+							first_name: profile.name.givenName || "",
+							last_name: profile.name.familyName || "",
+							farm_id: "eaa8f808",
+							photo: profile.photos[0].value || "",
+						});
+					}
+
+					return user;
+				}
+			),
+			"google"
 		);
 	}
 

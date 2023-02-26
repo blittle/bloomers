@@ -13,6 +13,7 @@ import { D1ItemsService } from "./services/items.d1";
 import { MockItemsService } from "./services/items.mock";
 
 import * as build from "./build/index.js";
+import { D1UsersService } from "services/users.d1";
 
 const assetManifest = JSON.parse(manifestJSON);
 const remixHandler = createRequestHandler(build, process.env.NODE_ENV);
@@ -50,11 +51,20 @@ export default {
 			return new Response("Internal Server Error", { status: 500 });
 		}
 
+		const users = new D1UsersService(env.APP_DB);
+
 		const loadContext: AppLoadContext = {
 			services: {
-				auth: new RemixAuthService([env.SESSION_SECRET!]),
+				auth: new RemixAuthService(
+					[env.SESSION_SECRET!],
+					env.APP_DB,
+					env.GOOGLE_CLIENT_ID,
+					env.GOOGLE_CLIENT_SECRET,
+					users
+				),
 				// items: new MockItemsService(),
 				items: new D1ItemsService(env.APP_DB),
+				users,
 			},
 		};
 

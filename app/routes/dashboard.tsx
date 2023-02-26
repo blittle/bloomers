@@ -21,6 +21,7 @@ export async function loader({
 	},
 	request,
 }: LoaderArgs) {
+	console.log("hi there");
 	await auth.requireUser(request);
 
 	return null;

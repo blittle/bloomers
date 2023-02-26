@@ -14,3 +14,19 @@ model Item {
   id    Int    @id @default(autoincrement())
   label String
 }
+
+model User {
+  user_id    String @id @unique
+  email      String
+  first_name String
+  last_name  String
+  farm       Farm   @relation(fields: [farm_id], references: [farm_id])
+  farm_id    String
+  photo      String
+}
+
+model Farm {
+  farm_id   String @id @unique
+  farm_name String
+  Users     User[]
+}

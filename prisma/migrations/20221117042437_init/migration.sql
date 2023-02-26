@@ -1,5 +1,0 @@
--- CreateTable
-CREATE TABLE "Item" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "label" TEXT NOT NULL
-);
