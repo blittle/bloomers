@@ -26,7 +26,15 @@ model User {
 }
 
 model Farm {
-  farm_id   String @id @unique
+  farm_id   String  @id @unique
   farm_name String
   Users     User[]
+  Plant     Plant[]
+}
+
+model Plant {
+  plant_id Int    @id @default(autoincrement())
+  name     String
+  farm     Farm   @relation(fields: [farm_id], references: [farm_id])
+  farm_id  String
 }
