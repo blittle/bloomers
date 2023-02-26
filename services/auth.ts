@@ -40,7 +40,7 @@ export class RemixAuthService implements AuthService {
 					clientID: googleClientId,
 					clientSecret: googleClientSecret,
 					callbackURL:
-						"https://wwww.bloomers.farm/auth" || "http://localhost:8787/auth",
+						"https://www.bloomers.farm/auth" || "http://localhost:8787/auth",
 				},
 				async ({ accessToken, refreshToken, extraParams, profile }) => {
 					let user = await users.getUser(profile.emails[0].value);

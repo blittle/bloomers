@@ -12,7 +12,8 @@
 		"format": "prettier -w .",
 		"lint": "eslint .",
 		"start": "node --loader tsx ./server.ts",
-		"test": "playwright test --project=chromium"
+		"test": "playwright test --project=chromium",
+		"deploy": "wrangler publish"
 	},
 	"dependencies": {
 		"@cloudflare/kv-asset-handler": "^0.2.0",
