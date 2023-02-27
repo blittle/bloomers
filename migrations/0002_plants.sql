@@ -1,21 +1,5 @@
 -- Migration number: 0002 	 2023-02-26T23:25:03.409Z
 
-/*
-  Warnings:
-
-  - Added the required column `days_between_successions` to the `Plant` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `days_sowing_transplant` to the `Plant` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `default_first_transplant_date` to the `Plant` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `germ_brightness` to the `Plant` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `germ_temp` to the `Plant` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `maturity_days` to the `Plant` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `pinch` to the `Plant` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `production_level` to the `Plant` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `sow_preference` to the `Plant` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `spacing` to the `Plant` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `support` to the `Plant` table without a default value. This is not possible if the table is not empty.
-
-*/
 -- CreateTable
 CREATE TABLE "PlantPlan" (
     "plant_plan_id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -27,8 +11,8 @@ CREATE TABLE "PlantPlan" (
 );
 
 -- RedefineTables
-PRAGMA foreign_keys=OFF;
-CREATE TABLE "new_Plant" (
+DROP TABLE "Plant";
+CREATE TABLE "Plant" (
     "plant_id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name" TEXT NOT NULL,
     "farm_id" TEXT NOT NULL,
@@ -45,8 +29,3 @@ CREATE TABLE "new_Plant" (
     "default_first_transplant_date" TEXT NOT NULL,
     CONSTRAINT "Plant_farm_id_fkey" FOREIGN KEY ("farm_id") REFERENCES "Farm" ("farm_id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
-INSERT INTO "new_Plant" ("farm_id", "name", "plant_id") SELECT "farm_id", "name", "plant_id" FROM "Plant";
-DROP TABLE "Plant";
-ALTER TABLE "new_Plant" RENAME TO "Plant";
-PRAGMA foreign_key_check;
-PRAGMA foreign_keys=ON;
