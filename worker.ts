@@ -14,6 +14,8 @@ import { MockItemsService } from "./services/items.mock";
 
 import * as build from "./build/index.js";
 import { D1UsersService } from "services/users.d1";
+import { D1FarmsService } from "services/farms.d1";
+import { D1PlantsService } from "services/plants.d1";
 
 const assetManifest = JSON.parse(manifestJSON);
 const remixHandler = createRequestHandler(build, process.env.NODE_ENV);
@@ -53,9 +55,14 @@ export default {
 
 		const users = new D1UsersService(env.APP_DB);
 
+		if (!env.GOOGLE_CLIENT_ID) throw new Error("Google client id required");
+		if (!env.GOOGLE_CLIENT_SECRET)
+			throw new Error("Google client secret required");
+
 		const loadContext: AppLoadContext = {
 			services: {
 				auth: new RemixAuthService(
+					new URL(request.url).origin,
 					[env.SESSION_SECRET!],
 					env.APP_DB,
 					env.GOOGLE_CLIENT_ID,
@@ -64,6 +71,8 @@ export default {
 				),
 				// items: new MockItemsService(),
 				items: new D1ItemsService(env.APP_DB),
+				farms: new D1FarmsService(env.APP_DB),
+				plants: new D1PlantsService(env.APP_DB),
 				users,
 			},
 		};

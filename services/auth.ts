@@ -13,16 +13,13 @@ export class RemixAuthService implements AuthService {
 	private sessionStorage: SessionStorage;
 
 	constructor(
+		origin: string,
 		secrets: string[],
 		private db: D1Database,
-		googleClientId?: string,
-		googleClientSecret?: string,
+		googleClientId: string,
+		googleClientSecret: string,
 		users: UserService
 	) {
-		if (!googleClientId) throw new Error("Google Client ID Required for Auth");
-		if (!googleClientSecret)
-			throw new Error("Google Client Secret Required for Auth");
-
 		this.sessionStorage = createCookieSessionStorage({
 			cookie: {
 				name: "auth",
@@ -39,8 +36,7 @@ export class RemixAuthService implements AuthService {
 				{
 					clientID: googleClientId,
 					clientSecret: googleClientSecret,
-					callbackURL:
-						"https://www.bloomers.farm/auth" || "http://localhost:8787/auth",
+					callbackURL: origin + "/auth",
 				},
 				async ({ accessToken, refreshToken, extraParams, profile }) => {
 					let user = await users.getUser(profile.emails[0].value);

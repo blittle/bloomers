@@ -26,15 +26,37 @@ model User {
 }
 
 model Farm {
-  farm_id   String  @id @unique
+  farm_id   String      @id @unique
   farm_name String
   Users     User[]
   Plant     Plant[]
+  PlantPlan PlantPlan[]
 }
 
 model Plant {
-  plant_id Int    @id @default(autoincrement())
-  name     String
-  farm     Farm   @relation(fields: [farm_id], references: [farm_id])
-  farm_id  String
+  plant_id                      Int         @id @default(autoincrement())
+  name                          String
+  farm                          Farm        @relation(fields: [farm_id], references: [farm_id])
+  farm_id                       String
+  sow_preference                String // OUTDOOR || INDOOR
+  spacing                       String // Distance between sowings
+  germ_brightness               String // DARK || LIGHT
+  germ_temp                     String // Degrees F
+  pinch                         String // Should be pinched
+  support                       String // NONE || NET || CORRAL
+  maturity_days                 Int // Time seed to flower
+  days_between_successions      Int // Time between sowings, to make sure always available
+  production_level              String // CONTINUOUSLY_CUT || ONE_HIT_WONDER || MEDIUM_PRODUCTION
+  days_sowing_transplant        Int // Days between sowing to transpalant
+  default_first_transplant_date String // First time it can be put into the field
+  PlantPlan                     PlantPlan[]
+}
+
+model PlantPlan {
+  plant_plan_id Int    @id @default(autoincrement())
+  farm          Farm   @relation(fields: [farm_id], references: [farm_id])
+  farm_id       String
+  plant         Plant  @relation(fields: [plant_id], references: [plant_id])
+  plant_id      Int
+  plan_data     String
 }

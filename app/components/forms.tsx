@@ -226,3 +226,197 @@ function TextInputImp(
 }
 
 export const TextInput = forwardRef(TextInputImp);
+
+function NumberInputImp(
+	{
+		id,
+		name,
+		defaultValue,
+		children,
+		...rest
+	}: Omit<HTMLProps<HTMLInputElement>, "type"> & { children: ReactNode },
+	forwardedRef: ForwardedRef<HTMLInputElement>
+) {
+	const { errors, restoredFormData } = useContext(FormContext);
+	const error =
+		name && errors
+			? (errors as ZodFormattedError<{ [key: typeof name]: string }>)[name]
+			: undefined;
+	const restoredValue =
+		restoredFormData && name ? restoredFormData.get(name) : undefined;
+	const ariaLabeledBy = id && error ? `${id}-label` : undefined;
+
+	return (
+		<label htmlFor={id} className="block mb-3 last:mb-0">
+			<span className="block">{children}</span>
+			<input
+				type="number"
+				{...rest}
+				ref={forwardedRef}
+				id={id}
+				name={name}
+				defaultValue={restoredValue || defaultValue}
+				aria-labelledby={ariaLabeledBy}
+				className="block w-full px-2 py-1 border bg-white dark:bg-black"
+			/>
+			{error && error._errors && error._errors.length > 0 && (
+				<ul
+					id={ariaLabeledBy}
+					className="text-sm text-red-600 dark:text-red-400"
+				>
+					{error._errors.map((error, index) => (
+						<li key={index + error}>{error}</li>
+					))}
+				</ul>
+			)}
+		</label>
+	);
+}
+
+export const NumberInput = forwardRef(NumberInputImp);
+
+function SelectImp(
+	{
+		id,
+		name,
+		header,
+		defaultValue,
+		children,
+		...rest
+	}: HTMLProps<HTMLSelectElement> & { children: ReactNode; header: ReactNode },
+	forwardedRef: ForwardedRef<HTMLSelectElement>
+) {
+	const { errors, restoredFormData } = useContext(FormContext);
+	const error =
+		name && errors
+			? (errors as ZodFormattedError<{ [key: typeof name]: string }>)[name]
+			: undefined;
+	const restoredValue =
+		restoredFormData && name ? restoredFormData.get(name) : undefined;
+	const ariaLabeledBy = id && error ? `${id}-label` : undefined;
+
+	return (
+		<label htmlFor={id} className="block mb-3 last:mb-0">
+			<span className="block">{header}</span>
+			<select
+				{...rest}
+				ref={forwardedRef}
+				id={id}
+				name={name}
+				defaultValue={restoredValue || defaultValue}
+				aria-labelledby={ariaLabeledBy}
+				className="block w-full px-2 py-1 border bg-white dark:bg-black"
+			>
+				{children}
+			</select>
+			{error && error._errors && error._errors.length > 0 && (
+				<ul
+					id={ariaLabeledBy}
+					className="text-sm text-red-600 dark:text-red-400"
+				>
+					{error._errors.map((error, index) => (
+						<li key={index + error}>{error}</li>
+					))}
+				</ul>
+			)}
+		</label>
+	);
+}
+
+export const SelectInput = forwardRef(SelectImp);
+
+function CheckBoxImpl(
+	{
+		id,
+		name,
+		defaultValue,
+		children,
+		...rest
+	}: Omit<HTMLProps<HTMLInputElement>, "type"> & { children: ReactNode },
+	forwardedRef: ForwardedRef<HTMLInputElement>
+) {
+	const { errors, restoredFormData } = useContext(FormContext);
+	const error =
+		name && errors
+			? (errors as ZodFormattedError<{ [key: typeof name]: string }>)[name]
+			: undefined;
+	const restoredValue =
+		restoredFormData && name ? restoredFormData.get(name) : undefined;
+	const ariaLabeledBy = id && error ? `${id}-label` : undefined;
+
+	return (
+		<label htmlFor={id} className="block mb-3 last:mb-0">
+			<span className="">{children}</span>
+			<input
+				type="checkbox"
+				{...rest}
+				ref={forwardedRef}
+				id={id}
+				name={name}
+				defaultValue={restoredValue || defaultValue}
+				aria-labelledby={ariaLabeledBy}
+				className="ml-2 px-2 py-1 border bg-white dark:bg-black"
+			/>
+			{error && error._errors && error._errors.length > 0 && (
+				<ul
+					id={ariaLabeledBy}
+					className="text-sm text-red-600 dark:text-red-400"
+				>
+					{error._errors.map((error, index) => (
+						<li key={index + error}>{error}</li>
+					))}
+				</ul>
+			)}
+		</label>
+	);
+}
+
+export const CheckBox = forwardRef(CheckBoxImpl);
+
+function DateInputImpl(
+	{
+		id,
+		name,
+		defaultValue,
+		children,
+		...rest
+	}: Omit<HTMLProps<HTMLInputElement>, "type"> & { children: ReactNode },
+	forwardedRef: ForwardedRef<HTMLInputElement>
+) {
+	const { errors, restoredFormData } = useContext(FormContext);
+	const error =
+		name && errors
+			? (errors as ZodFormattedError<{ [key: typeof name]: string }>)[name]
+			: undefined;
+	const restoredValue =
+		restoredFormData && name ? restoredFormData.get(name) : undefined;
+	const ariaLabeledBy = id && error ? `${id}-label` : undefined;
+
+	return (
+		<label htmlFor={id} className="block mb-3 last:mb-0">
+			<span className="block">{children}</span>
+			<input
+				type="date"
+				{...rest}
+				ref={forwardedRef}
+				id={id}
+				name={name}
+				defaultValue={restoredValue || defaultValue}
+				aria-labelledby={ariaLabeledBy}
+				className="block w-full px-2 py-1 border bg-white dark:bg-black"
+			/>
+			{error && error._errors && error._errors.length > 0 && (
+				<ul
+					id={ariaLabeledBy}
+					className="text-sm text-red-600 dark:text-red-400"
+				>
+					{error._errors.map((error, index) => (
+						<li key={index + error}>{error}</li>
+					))}
+				</ul>
+			)}
+		</label>
+	);
+}
+
+export const DateInput = forwardRef(DateInputImpl);

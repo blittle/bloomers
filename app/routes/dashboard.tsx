@@ -1,10 +1,11 @@
-import { type LoaderArgs } from "@remix-run/cloudflare";
+import { json, type LoaderArgs } from "@remix-run/cloudflare";
 import {
 	Form,
 	Outlet,
 	useLocation,
 	type ShouldReloadFunction,
 } from "@remix-run/react";
+import invariant from "tiny-invariant";
 import { buttonStyles } from "~/components/buttons";
 
 import {
@@ -17,14 +18,20 @@ import {
 
 export async function loader({
 	context: {
-		services: { auth },
+		services: { auth, farms },
 	},
 	request,
 }: LoaderArgs) {
-	console.log("hi there");
 	await auth.requireUser(request);
+	const user = await auth.getUser(request);
+	invariant(user?.farm_id, "User must be associated with a Farm!");
 
-	return null;
+	const farm = await farms.getFarm(user.farm_id);
+
+	return json({
+		user,
+		farm,
+	});
 }
 
 export const unstable_shouldReload: ShouldReloadFunction = ({ submission }) =>
@@ -45,7 +52,8 @@ export default function DashboardLayout() {
 					<DashboardMenuHeader label="Menu" menu="dashboard-menu" />
 
 					<ListItems>
-						<ListItem to="items">Items</ListItem>
+						<ListItem to="plants">Manage Plants</ListItem>
+						<ListItem to="planner">Planner</ListItem>
 					</ListItems>
 
 					<hr />

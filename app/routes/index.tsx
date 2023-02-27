@@ -17,12 +17,12 @@ export default function Home() {
 	const { loggedIn } = useLoaderData<typeof loader>();
 	return (
 		<main className="h-screen w-screen flex flex-col gap-4 items-center justify-center max-w-md mx-auto">
-			<h1 className="text-4xl">Remix Dashboard Starter</h1>
+			<h1 className="text-4xl">Bloomers</h1>
 
-			<p>A simple dashboard starter to get you up and running.</p>
+			<p>Organize your flower farm easy.</p>
 
 			{loggedIn ? (
-				<Link to="items" className={buttonStyles()}>
+				<Link to="dashboard" className={buttonStyles()}>
 					Dashboard
 				</Link>
 			) : (

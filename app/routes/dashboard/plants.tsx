@@ -15,16 +15,17 @@ import {
 
 export async function loader({
 	context: {
-		services: { auth, items },
+		services: { auth, plants },
 	},
 	request,
 }: LoaderArgs) {
-	const itemsPromise = items.getAllItems();
-
 	await auth.requireUser(request);
+	const user = await auth.getUser(request);
+	const allPlants = await plants.getAllPlants(user?.farm_id);
 
 	return json({
-		items: await itemsPromise,
+		plants: allPlants,
+		user,
 	});
 }
 
@@ -34,20 +35,20 @@ export const unstable_shouldReload: ShouldReloadFunction = ({ submission }) =>
 		submission.action.startsWith(pathname)
 	);
 
-export default function Items() {
+export default function Plants() {
 	useAutoFocusSection(/^\/items\/?$/i, "dashboard-items");
 
-	const { items } = useLoaderData<typeof loader>();
+	const { plants } = useLoaderData<typeof loader>();
 
 	return (
 		<>
 			<ListSection id="dashboard-items">
 				<ListHeader
-					label="Items"
+					label="Plants"
 					menu="dashboard-menu"
 					actions={[
 						{
-							label: "New Item",
+							label: "New Plant",
 							icon: "🆕",
 							to: "new",
 						},
@@ -55,9 +56,9 @@ export default function Items() {
 				/>
 
 				<ListItems>
-					{items.map(({ id, label }) => (
-						<ListItem key={id} to={`item/${id}`}>
-							{label}
+					{plants.map(({ name, plant_id }) => (
+						<ListItem key={plant_id} to={`item/${plant_id}`}>
+							{name}
 						</ListItem>
 					))}
 				</ListItems>
