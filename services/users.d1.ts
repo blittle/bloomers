@@ -10,7 +10,7 @@ export class D1UsersService implements UserService {
 	async getUser(email: string) {
 		let result = await this.db
 			.prepare(
-				"SELECT `user_id`, `email`, `first_name`, `last_name`, `farm_id` FROM `User` WHERE `email`=?;"
+				"SELECT `user_id`, `email`, `first_name`, `last_name`, `farm_id`, `photo` FROM `User` WHERE `email`=?;"
 			)
 			.bind(email)
 			.first<User>();

@@ -2,10 +2,6 @@ import { RemixBrowser } from "@remix-run/react";
 import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
 
-import { registerFocusTrap } from "./elements/focus-trap.client";
-
-registerFocusTrap();
-
 function hydrate() {
 	startTransition(() => {
 		hydrateRoot(

@@ -6,3 +6,13 @@ export function getRedirectTo(searchParams: URLSearchParams, fallback = "/") {
 	}
 	return redirect || fallback;
 }
+
+export function classNames(...classes: string[]) {
+	return classes.filter(Boolean).join(" ");
+}
+
+export const PRODUCTION_LEVEL = {
+	OHW: "One hit wonder",
+	MP: "Medium producer",
+	CC: "Continuous cut",
+};

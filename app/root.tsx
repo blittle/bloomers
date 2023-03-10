@@ -28,15 +28,12 @@ export default function App() {
 	useNProgress();
 
 	return (
-		<html
-			lang="en"
-			className="bg-white text-lg dark:bg-black text-black dark:text-white"
-		>
+		<html lang="en" className="h-full bg-gray-100">
 			<head>
 				<Meta />
 				<Links />
 			</head>
-			<body>
+			<body className="h-full">
 				<Outlet />
 				<ScrollRestoration />
 				<Scripts />

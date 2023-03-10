@@ -200,7 +200,9 @@ function TextInputImp(
 
 	return (
 		<label htmlFor={id} className="block mb-3 last:mb-0">
-			<span className="block">{children}</span>
+			<span className="block text-sm font-medium leading-6 text-gray-900">
+				{children}
+			</span>
 			<input
 				type="text"
 				{...rest}
@@ -209,7 +211,7 @@ function TextInputImp(
 				name={name}
 				defaultValue={restoredValue || defaultValue}
 				aria-labelledby={ariaLabeledBy}
-				className="block w-full px-2 py-1 border bg-white dark:bg-black"
+				className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
 			/>
 			{error && error._errors && error._errors.length > 0 && (
 				<ul
@@ -248,7 +250,9 @@ function NumberInputImp(
 
 	return (
 		<label htmlFor={id} className="block mb-3 last:mb-0">
-			<span className="block">{children}</span>
+			<span className="block text-sm font-medium leading-6 text-gray-900">
+				{children}
+			</span>
 			<input
 				type="number"
 				{...rest}
@@ -257,7 +261,7 @@ function NumberInputImp(
 				name={name}
 				defaultValue={restoredValue || defaultValue}
 				aria-labelledby={ariaLabeledBy}
-				className="block w-full px-2 py-1 border bg-white dark:bg-black"
+				className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
 			/>
 			{error && error._errors && error._errors.length > 0 && (
 				<ul
@@ -297,7 +301,9 @@ function SelectImp(
 
 	return (
 		<label htmlFor={id} className="block mb-3 last:mb-0">
-			<span className="block">{header}</span>
+			<span className="block text-sm font-medium leading-6 text-gray-900">
+				{header}
+			</span>
 			<select
 				{...rest}
 				ref={forwardedRef}
@@ -305,7 +311,7 @@ function SelectImp(
 				name={name}
 				defaultValue={restoredValue || defaultValue}
 				aria-labelledby={ariaLabeledBy}
-				className="block w-full px-2 py-1 border bg-white dark:bg-black"
+				className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-green-600 sm:text-sm sm:leading-6"
 			>
 				{children}
 			</select>
@@ -345,29 +351,39 @@ function CheckBoxImpl(
 	const ariaLabeledBy = id && error ? `${id}-label` : undefined;
 
 	return (
-		<label htmlFor={id} className="block mb-3 last:mb-0">
-			<span className="">{children}</span>
-			<input
-				type="checkbox"
-				{...rest}
-				ref={forwardedRef}
-				id={id}
-				name={name}
-				defaultValue={restoredValue || defaultValue}
-				aria-labelledby={ariaLabeledBy}
-				className="ml-2 px-2 py-1 border bg-white dark:bg-black"
-			/>
-			{error && error._errors && error._errors.length > 0 && (
-				<ul
-					id={ariaLabeledBy}
-					className="text-sm text-red-600 dark:text-red-400"
-				>
-					{error._errors.map((error, index) => (
-						<li key={index + error}>{error}</li>
-					))}
-				</ul>
-			)}
-		</label>
+		<div className="relative flex items-start">
+			<div className="flex h-6 items-center">
+				<input
+					type="checkbox"
+					{...rest}
+					ref={forwardedRef}
+					id={id}
+					name={name}
+					defaultValue={restoredValue || defaultValue}
+					aria-labelledby={ariaLabeledBy}
+					className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-600"
+				/>
+			</div>
+			<div className="ml-3 text-sm leading-6">
+				<label htmlFor={id} className="font-medium text-gray-900">
+					{children}
+				</label>
+				{/* <p id="comments-description" className="text-gray-500">
+						Get notified when someones posts a comment on a posting.
+					</p> */}
+
+				{error && error._errors && error._errors.length > 0 && (
+					<ul
+						id={ariaLabeledBy}
+						className="text-sm text-red-600 dark:text-red-400"
+					>
+						{error._errors.map((error, index) => (
+							<li key={index + error}>{error}</li>
+						))}
+					</ul>
+				)}
+			</div>
+		</div>
 	);
 }
 
@@ -394,7 +410,9 @@ function DateInputImpl(
 
 	return (
 		<label htmlFor={id} className="block mb-3 last:mb-0">
-			<span className="block">{children}</span>
+			<span className="block text-sm font-medium leading-6 text-gray-900">
+				{children}
+			</span>
 			<input
 				type="date"
 				{...rest}
@@ -403,7 +421,7 @@ function DateInputImpl(
 				name={name}
 				defaultValue={restoredValue || defaultValue}
 				aria-labelledby={ariaLabeledBy}
-				className="block w-full px-2 py-1 border bg-white dark:bg-black"
+				className="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
 			/>
 			{error && error._errors && error._errors.length > 0 && (
 				<ul

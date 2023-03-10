@@ -12,13 +12,6 @@ import {
 } from "@remix-run/react";
 import { buttonStyles } from "~/components/buttons";
 
-import {
-	useAutoFocusSection,
-	ConfirmationDialog,
-	DetailsHeader,
-	DetailsSection,
-} from "~/components/dashboard";
-
 export async function loader({
 	context: {
 		services: { auth, items },
@@ -66,50 +59,20 @@ export const unstable_shouldReload: ShouldReloadFunction = ({ submission }) =>
 	);
 
 export default function Item() {
-	useAutoFocusSection(/^\/items\/./i, "dashboard-item");
-
 	const { item } = useLoaderData<typeof loader>();
 	const [searchParams] = useSearchParams();
 
 	const confirmDelete = searchParams.has("delete");
 
 	return (
-		<DetailsSection id="dashboard-item">
-			<DetailsHeader
-				label={item.label}
-				actions={[
-					{
-						label: "Delete Item",
-						icon: "🗑",
-						to: "?delete",
-					},
-				]}
-			/>
-
-			<div className="p-2">
-				<button
-					key={item.id}
-					autoFocus={!confirmDelete}
-					className={buttonStyles()}
-				>
-					Auto-focused
-				</button>
-			</div>
-
-			{confirmDelete && (
-				<>
-					<ConfirmationDialog
-						id="dashboard-item-delete-dialog"
-						title="Delete Item?"
-						confirmForm="dashboard-item-delete-form"
-						confirmLabel="Delete"
-						denyLabel="Cancel"
-					/>
-					<Form method="post" id="dashboard-item-delete-form">
-						<input type="hidden" name="intent" value="delete" />
-					</Form>
-				</>
-			)}
-		</DetailsSection>
+		<div className="p-2">
+			<button
+				key={item.id}
+				autoFocus={!confirmDelete}
+				className={buttonStyles()}
+			>
+				Auto-focused
+			</button>
+		</div>
 	);
 }
