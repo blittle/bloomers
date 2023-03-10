@@ -33,33 +33,35 @@ export class D1PlantsService implements PlantService {
 		return result;
 	}
 	async updatePlant(plant: Plant) {
+		console.log("try to update plant");
+
 		invariant(plant, "Plant Required!");
 
-		let result = await this.db
-			.prepare(
-				"UPDATE `Plant` SET `name`=?1, `sow_preference`=?2, `spacing`=?3, `germ_brightness`=?4, `germ_temp`=?5, `pinch`=?6, `support`=?7, `maturity_days`=?8, `days_between_successions`=?9, `production_level`=?10, `days_sowing_transplant`=?11, `default_first_transplant_date`=?12 WHERE `plant_id`=?13 LIMIT 1;"
-			)
-			.bind(
-				plant.name,
-				plant.sow_preference,
-				plant.spacing,
-				plant.germ_brightness,
-				plant.germ_temp,
-				plant.pinch,
-				plant.support,
-				plant.maturity_days,
-				plant.days_between_successions,
-				plant.production_level,
-				plant.days_sowing_transplant,
-				plant.default_first_transplant_date,
-				plant.plant_id
-			)
-			.run();
-
-		// `changes` is not yet implemented in the D1 alpha
-		// if (!result.changes) {
-		// 	throw new Error("Failed to update plant.");
-		// }
+		try {
+			await this.db
+				.prepare(
+					"UPDATE `Plant` SET `name`=?1, `sow_preference`=?2, `spacing`=?3, `germ_brightness`=?4, `germ_temp`=?5, `pinch`=?6, `support`=?7, `maturity_days`=?8, `days_between_successions`=?9, `production_level`=?10, `days_sowing_transplant`=?11, `default_first_transplant_date`=?12 WHERE `plant_id`=?13;"
+				)
+				.bind(
+					plant.name,
+					plant.sow_preference,
+					plant.spacing,
+					plant.germ_brightness,
+					plant.germ_temp,
+					plant.pinch,
+					plant.support,
+					plant.maturity_days,
+					plant.days_between_successions,
+					plant.production_level,
+					plant.days_sowing_transplant,
+					plant.default_first_transplant_date,
+					plant.plant_id
+				)
+				.run();
+		} catch (e: any) {
+			console.error(e.message + " : " + e.cause.message);
+			throw e;
+		}
 	}
 	async addPlant(plant: Omit<Plant, "plant_id">) {
 		let result = await this.db
