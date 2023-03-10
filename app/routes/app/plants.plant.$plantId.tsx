@@ -19,10 +19,8 @@ export async function loader({
 	params,
 	request,
 }: LoaderArgs) {
-	const [plant] = await Promise.all([
-		plants.getPlantById(params.plantId!),
-		auth.requireUser(request),
-	]);
+	const user = await auth.requireUser(request);
+	const plant = await plants.getPlantById(params.plantId!, user.farm_id);
 
 	if (!plant) {
 		throw json("Plant not found", { status: 404 });
@@ -38,14 +36,14 @@ export async function action({
 	params,
 	request,
 }: ActionArgs) {
-	const [formData] = await Promise.all([
+	const [formData, user] = await Promise.all([
 		request.formData(),
 		auth.requireUser(request),
 	]);
 
 	switch (formData.get("intent")) {
 		case "delete":
-			await plants.deletePlant(params.plantId!);
+			await plants.deletePlant(params.plantId!, user.farm_id);
 			return redirect("/app/plants");
 		case "update":
 			const parseResult = schema.safeParse(formData);
@@ -71,7 +69,7 @@ export async function action({
 				),
 				pinch: parseResult.data.pinch || "false",
 				plant_id: parseInt(formData.get("plant_id") as string, 10),
-				farm_id: formData.get("farm_id") as string,
+				farm_id: user.farm_id,
 			});
 
 			return redirect("/app/plants");
@@ -115,7 +113,6 @@ export default function NewPlant() {
 							>
 								<input type="hidden" name="intent" value="update" />
 								<input type="hidden" name="plant_id" value={plant.plant_id} />
-								<input type="hidden" name="farm_id" value={plant.farm_id} />
 							</PlantForm>
 						</div>
 					</div>

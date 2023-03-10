@@ -87,10 +87,10 @@ export class D1PlantsService implements PlantService {
 
 		return result;
 	}
-	async deletePlant(plantId: string): Promise<void> {
+	async deletePlant(plantId: string, farmId: string): Promise<void> {
 		const result = await this.db
-			.prepare("DELETE FROM `Plant` WHERE `plant_id` = ?;")
-			.bind(plantId)
+			.prepare("DELETE FROM `Plant` WHERE `plant_id` = ? AND `farm_id`= ?;")
+			.bind(plantId, farmId)
 			.run();
 
 		// `changes` is not yet implemented in the D1 alpha

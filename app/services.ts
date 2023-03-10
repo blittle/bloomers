@@ -14,10 +14,10 @@ export interface ItemsService {
 
 export interface PlantService {
 	addPlant(plant: Omit<Plant, "plant_id">): Promise<Plant>;
-	getPlantById(plantId: string): Promise<Plant>;
+	getPlantById(plantId: string, farmId: string): Promise<Plant>;
 	getAllPlants(farmId?: string): Promise<Plant[]>;
 	updatePlant(plant: Plant): Promise<void>;
-	deletePlant(plantId: string): Promise<void>;
+	deletePlant(plantId: string, farmId: string): Promise<void>;
 }
 
 export interface FarmService {
