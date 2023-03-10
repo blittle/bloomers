@@ -14,7 +14,10 @@ export interface ItemsService {
 
 export interface PlantService {
 	addPlant(plant: Omit<Plant, "plant_id">): Promise<Plant>;
+	getPlantById(plantId: string): Promise<Plant>;
 	getAllPlants(farmId?: string): Promise<Plant[]>;
+	updatePlant(plant: Plant): Promise<void>;
+	deletePlant(plantId: string): Promise<void>;
 }
 
 export interface FarmService {
@@ -44,7 +47,7 @@ export interface Plant {
 	germ_brightness: "DARK" | "LIGHT";
 	germ_temp: string;
 	pinch: string;
-	support: "NONE" | "NET" | "CORRAL";
+	support: "NONE" | "NET" | "CORRAL" | "UNKNOWN";
 	maturity_days: number;
 	days_between_successions: number;
 	production_level: "CC" | "OHW" | "MP";

@@ -144,7 +144,7 @@ function DraftFormImp(
 				const input = form.elements.namedItem(name);
 				if (input instanceof HTMLInputElement) {
 					if (input.type == "checkbox") {
-						input.checked = value == "on";
+						input.checked = value == "true";
 					} else if (input.type == "radio") {
 						if (input.value == value) {
 							input.checked = true;
@@ -359,7 +359,7 @@ function CheckBoxImpl(
 					ref={forwardedRef}
 					id={id}
 					name={name}
-					defaultValue={restoredValue || defaultValue}
+					defaultValue={restoredValue ?? defaultValue}
 					aria-labelledby={ariaLabeledBy}
 					className="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-600"
 				/>
