@@ -13,8 +13,7 @@ export async function loader({
 	},
 	request,
 }: LoaderArgs) {
-	await auth.requireUser(request);
-	const user = await auth.getUser(request);
+	const user = await auth.requireUser(request);
 	const allPlants = await plants.getAllPlants(user?.farm_id);
 
 	return json({

@@ -22,7 +22,7 @@ export default function Home() {
 			<p>Organize your flower farm easy.</p>
 
 			{loggedIn ? (
-				<Link to="dashboard" className={buttonStyles()}>
+				<Link to="/app/dashboard" className={buttonStyles()}>
 					Dashboard
 				</Link>
 			) : (

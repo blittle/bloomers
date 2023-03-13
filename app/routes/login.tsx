@@ -22,7 +22,7 @@ export async function action({
 
 export default function Login() {
 	const [searchParams] = useSearchParams();
-	const redirectTo = searchParams.get("redirectTo") || "/items";
+	const redirectTo = searchParams.get("redirectTo") || "/app";
 
 	return (
 		<main className="h-screen w-screen flex flex-col gap-4 items-center justify-center max-w-md mx-auto">
